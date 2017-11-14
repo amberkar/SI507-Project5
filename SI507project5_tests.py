@@ -2,38 +2,46 @@ import unittest
 import csv
 from SI507project5_code import *
 
-
-class Proj5(unittest.TestCase):
+class test_cache(unittest.TestCase):
     def setUp(self):
-        self.cache = open('cache_contents.json')
-        self.csv1 = open('Tumblr.csv')
-        self.csv2 = open('Posts.csv')
+        self.data = open("cache_contents.json",'r')
+        self.creds = open("creds.json",'r')
 
-    def test_cache(self):
-        self.assertTrue(self.cache.read(), 'No cache found')
-        self.assertTrue(self.csv1.read(), 'No CSV1 found')
-        self.assertTrue(self.csv2.read(), 'No CSV2 found')
+    def test1_cache(self):
+        self.assertTrue(self.data.read(), "Ooooops you don't have cached data.")
+        self.assertTrue(self.creds.read(), "Oooops you don't have creds data.")
 
-    def test_authcreds(self):
-        self.assertTrue(self.creds.read(),'No OAuth creds found')
+    def tearDown(self):
+        self.data.close()
+        self.creds.close()
 
-    def test_csv_columns(self):
-        self.assertEqual(len(self.csv1.readline().split(',')),4)
-        self.assertEqual(len(self.csv2.readline().split(',')),4)
+class Data(unittest.TestCase):
+    def setUp(self):
+        self.tumblr_res_1 = tumblr_res
+        self.response = tumblr_result['response'][0]
+        self.tags = tumblr_result['response'][0]['tags']
 
-    def test_tags_list(self):
-        reader = csv.reader(self.csv1, delimiter=',')
-        row1 = next(reader)
-        row1 = next(reader)
-        self.assertIn('[', row1[3])
-        self.assertIn(']', row1[3])
+    def test2(self):
+        self.assertEqual(type(self.tumblr_res_1),dict,"Testing that tumblr_res_1 successfully returns a dictionary")
 
-    def test_tumblr_api(self):
-        self.assertTrue(type(self.tumblr_test) == type({}), "Testing Tumblr API returns a dictionary.")
-        self.assertEqual(len(self.tumblr_test.keys()), 2, "Testing that the dictionary has stuff in it!")
+    def test3(self):
+        self.assertEqual(type(self.response['blog_name']),type(u"s")), "Testing that response is a string"
 
-    def test_class_tumblr(self):
-        self.assertTrue(self.tumblr_instance.title == "", "Testing Class Tumblr returns data.")
+    def test4(self):
+        self.assertEqual(self.tags, ['car','dog','yo yo','water'])
+
+class test_csv_files(unittest.TestCase):
+    def setUp(self):
+        self.blog = open("Tumblr_Blog.csv",'r')
+        self.tags = open("Tumblr_Tags.csv",'r')
+
+    def test5_csv(self):
+        self.assertTrue(self.blog.read(), "Oh no, there isn't any data in No data in Tumblr_Blog.csv!")
+        self.assertTrue(self.tags.read(), "Oh no, there isn't any data in No data in Tumblr_Tags.csv!")
+
+    def tearDown(self):
+        self.blog.close()
+        self.tags.close()
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
