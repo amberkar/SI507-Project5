@@ -1,1 +1,12 @@
 Put your Project 5 brief explanation, as directed, here.
+
+I am accessing the Tumblr search API and wish to gather the below info:
+
+- Blog posts that are tagged with "vegan"
+- for each post I also want to know the name of the blog, the note count and the tags
+- Once I have that info about the tags I want to count the number of tags so I can see how popular each post was
+- After the program is run the above info will be written to 2 separate CSV files per functions I made
+- The first CSV called Tumblr_Blog.csv will have 3 columns ( Blog Name, Tags and Note_Count)
+- The second CSV called Tumblr2_Tags.csv will have just 2 columns with the tag and the tag number( the number of times the tag was used)
+
+- URL for the API: https://api.tumblr.com/v2/tagged
